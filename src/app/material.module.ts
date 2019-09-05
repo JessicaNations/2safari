@@ -26,8 +26,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule} from '@angular/material/chips';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
-import {MatMenuModule} from '@angular/material/menu';
-
+import { MatMenuModule } from '@angular/material/menu';
 @NgModule({
 
   imports: [
@@ -55,7 +54,7 @@ import {MatMenuModule} from '@angular/material/menu';
     MatPaginatorModule,
     MatChipsModule,
     MatCarouselModule,
-    MatMenuModule
+    MatMenuModule,
   ],
   exports: [
     MatTabsModule,

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { FormsModule } from '@angular/forms';
@@ -17,6 +17,10 @@ import { CalendarDetailComponent } from './calendar-detail/calendar-detail.compo
 import { CalendarSearchComponent } from './calendar-search/calendar-search.component';
 import { CarouselComponent } from './carousel/carousel.component';
 
+import { SecuredImageComponent } from './carousel/secured-image.component';
+import { MyHttpInterceptor } from './carousel/my-http.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
 import { MyMaterialModule } from './material.module';
 import {
   MatToolbarModule,
@@ -28,6 +32,7 @@ import {
 import {MatChipsModule} from '@angular/material/chips';
 import { MatCarouselModule } from '@ngmodule/material-carousel';
 import {MatMenuModule} from '@angular/material/menu';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 
 @NgModule({
@@ -37,7 +42,8 @@ import {MatMenuModule} from '@angular/material/menu';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
+    HttpClientInMemoryWebApiModule.forRoot(
+      InMemoryDataService, {
       dataEncapsulation: false,
       delay: 300,
       passThruUnknownUrl: true
@@ -50,16 +56,21 @@ import {MatMenuModule} from '@angular/material/menu';
     MatButtonModule,
     MatIconModule,
     MatChipsModule,
-    MatMenuModule
+    MatMenuModule,
+    CarouselModule.forRoot()
   ],
   declarations: [
     AppComponent,
     CalendarSearchComponent,
     CalendarsComponent,
     CalendarDetailComponent,
-    CarouselComponent
+    CarouselComponent,
+    SecuredImageComponent
   ],
-  providers: [CalendarService],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+  providers: [CalendarService, {
+    provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

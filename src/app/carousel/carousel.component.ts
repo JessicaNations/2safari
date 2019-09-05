@@ -1,48 +1,25 @@
-import { Component, QueryList, ViewChildren } from '@angular/core';
-import { ThemePalette } from '@angular/material';
-import { MatCarouselSlideComponent } from '@ngmodule/material-carousel';  // Orientation
+import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'my-carousel',
-  templateUrl: './carousel.component.html',
+  templateUrl: './carousel.component.html'
 })
 export class CarouselComponent {
-  public slidesList: Array<object> = [{
-    image: 'assets/images/calf.jpg'},
-    {image: 'assets/images/peacock.jpg'},
-    {image: 'assets/images/zebra.jpg'
-  }];
-  public showContent = false;
+  jwtToken = window.localStorage.getItem('jwtToken');
+  images$ = this.httpClient
+    .get(`https://api.giphy.com/v1/gifs/search?q=dogs&imit=10&api_key=dc6zaTOxFJmzC`)
+    .pipe(map((resp: any) => resp.data));
 
-  public timings = '250ms ease-in';
-  public autoplay = true;
-  public interval = 5000;
-  public loop = true;
-  public hideArrows = false;
-  public hideIndicators = false;
-  public color: ThemePalette = 'accent';
-  public maxWidth = 'auto';
-  public proportion = 25;
-  public slides = this.slidesList.length;
-  public overlayColor = '#00000040';
-  public hideOverlay = false;
-  public useKeyboard = true;
-  public useMouseWheel = false;
-  // public orientation: Orientation = 'ltr';
-  public log: string[] = [];
-
-  @ViewChildren(MatCarouselSlideComponent) public carouselSlides: QueryList<
-    MatCarouselSlideComponent
-  >;
 
   constructor(
-  ) {}
+    private httpClient: HttpClient
+    ) {}
 
-  public resetSlides(): void {
-    this.carouselSlides.forEach(item => (item.disabled = false));
-  }
 
-  public onChange(index: number) {
-    this.log.push(`MatCarousel#change emitted with index ${index}`);
+  setJwtToken(token: string): void {
+    this.jwtToken = token;
+    window.localStorage.setItem('jwtToken', token);
   }
 }

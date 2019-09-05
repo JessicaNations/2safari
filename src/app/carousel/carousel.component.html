@@ -1,4 +1,11 @@
-<mat-card>
+<carousel>
+  <slide *ngFor="let image of images$|async">
+    <app-secured-image [src]="image.images.original.url"></app-secured-image>
+  </slide>
+</carousel>
+
+
+<!-- <mat-card>
   <mat-card-content>
     <div class="safari-carousel">
       <mat-carousel
@@ -20,8 +27,8 @@
       >
         <mat-carousel-slide
           #matCarouselSlide
-          *ngFor="let slide of slidesList; let i = index"
-          [image]="slidesList"
+          *ngFor="let image of images$|async"
+          image="image.images.original.url"
           [overlayColor]="overlayColor"
           [hideOverlay]="hideOverlay"
         >
@@ -29,4 +36,4 @@
       </mat-carousel>
     </div>
   </mat-card-content>
-</mat-card>
+</mat-card> -->
